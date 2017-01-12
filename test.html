@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>测试</title>
+		<script src="js/jquery-1.12.4.js"></script>
+		<link rel="stylesheet" href="css/bootstrap.css"/>
+		<script src="js/bootstrap.js"></script>
+		<script src="js/angular.js"></script>
+		<style>
+			.wrapper{
+				width: 300px;
+			}
+			.error{
+				color: red;
+			}
+			textarea::-webkit-input-placeholder { color: red!important;}
+		</style>
+	</head>
+	<body ng-app="myApp" ng-controller="SignUpController" class="ng-scope">
+		<div class="wrapper">
+			<form name="signUpForm" ng-submit="submitForm()">
+				<div id="" class="form-group has-success has-feedback" ng-class="{'has-success':signUpForm.userame.$valid}">
+					<label>用户名：</label>
+					<input type="text" 
+						name="userame" 
+						class="form-control" 
+						ng-model="userdata.userame"
+						ng-minlength="4"
+						ng-maxlength="10"
+						required
+						/>
+					<span class="glyphicon glyphicon-ok form-control-feedback"
+						ng-if="signUpForm.userame.$valid"></span>
+					<p class="error" ng-if="signUpForm.userame.$error.required
+						&&signUpForm.userame.$touched">用户名不能为空</p>
+					<p class="error" ng-if="(signUpForm.userame.$error.minlength || signUpForm.userame.$error.maxlength)
+						&&signUpForm.userame.$touched">用户名长度应在4-10之间</p>
+				</div>
+				<div id="" class="form-group has-success has-feedback" ng-class="{'has-success':signUpForm.password.$valid}">
+					<label>密码：</label>
+					<input type="password" 
+						name="password" 
+						class="form-control"
+						ng-model="userdata.password"
+						ng-minlength="4"
+						ng-maxlength="8"
+						required
+						/>
+					<span class="glyphicon glyphicon-ok form-control-feedback"
+						ng-if="signUpForm.password.$valid"></span>
+					<p class="error" ng-if="signUpForm.password.$error.required
+						&&signUpForm.password.$touched">密码不能为空</p>
+					<p class="error" ng-if="(signUpForm.password.$error.minlength || signUpForm.password.$error.maxlength)
+						&&signUpForm.password.$touched">密码长度应在4-8之间</p>
+				</div>
+				<div id="" class="form-group has-success has-feedback" ng-class="{'has-success':signUpForm.password2.$valid}">
+					<label>确认密码：</label>
+					<input type="password" 
+						name="password2" 
+						class="form-control" 
+						ng-model="userdata.password2"
+						compare="userdata.password"
+						/>
+					<!--<span class="glyphicon glyphicon-ok form-control-feedback"
+						ng-if="signUpForm.password.$valid"></span>-->
+					<p class="error" ng-if="signUpForm.password2.$error.compare
+						&&signUpForm.password.$touched">2次密码不一致</p>
+				</div>
+				<div id="" class="form-group">
+					<button class="btn btn-primary" ng-disabled="signUpForm.$invalid">注册</button>
+				</div>
+			</form>
+		</div>
+		
+		<script src="js/zxktest.js"></script>
+		<script>
+			window.onload = function(){
+				ajax('',function(data){
+					console.log(data)
+				})
+			}
+			function ajax(data, callback){
+				$.ajax({
+					type:"get",
+					data: data,
+					dataType: 'html',
+					url:"/yishengAnalyze/yishengAgentController.do?listAllAgents",
+					timeout: 5000,
+					seccess: function(data){
+						callback({
+							isSuccess:true,
+							data: (new Function('return' + data))()
+						})
+					},
+					error: function(xhr,errorType,errorThrown){
+						callback({
+							isSuccess:false,
+							data:(new Function("return"+data))()
+						})
+					}
+				});
+			}
+		</script>
+	</body>
+</html>
