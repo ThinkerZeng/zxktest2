@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>測試</title>
+		<script src="js/jquery-1.12.4.js"></script>
+		<script src="js/angular.js"></script>
+		<script src="js/bootstrap.js"></script>
+		<link rel="stylesheet" href="css/bootstrap.css" />
+</head>
+<body style="height:100%">
+	<div ng-app="myApp" ng-controller="ctrl">
+		{{a|date:'yyyy-MM-dd HH:MM:ss'}}
+	</div>
+	<script>
+		var app = angular.module('myApp', []);
+		app.controller('ctrl',function($scope){
+			$scope.a = ((new Date().valueOf()))
+		}) 
+	</script>
+</body>
+</html>
