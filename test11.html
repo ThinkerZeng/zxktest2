@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>測試</title>
+		<script src="js/jquery-1.12.4.js"></script>
+		<script src="js/angular.js"></script>
+		<script src="js/windowSetting.js"></script>
+
+	</head>
+
+	<body ng-app="myApp" ng-controller="myCtrl">
+		<div ng-repeat="x in TU">
+			<span>{{x.tuid | cut:true:4:'***'}}</span>
+			<p>{{x.title | cut:true:3:'...'}}</p>
+			<p>{{x.cost}}</p>
+		</div>
+
+		<script>
+			var app = angular.module('myApp', []);
+			app.controller('myCtrl', function($scope) {
+				$scope.TU = [{
+					"tuid": "xy0001",
+					"title": "哈哈哈哈哈哈哈哈哈",
+					"cost": "86"
+				}, {
+					"tuid": "xy0002",
+					"title": "呵呵呵呵呵呵呵呵呵呵呵呵",
+					"cost": "96"
+				}]
+			})
+			app.filter('cut', function() {
+				return function(value, wordwise, max, tail) {
+					if(!value) return '';
+
+					max = parseInt(max, 10);
+					if(!max) return value;
+					if(value.length <= max) return value;
+
+					value = value.substr(0, max);
+					if(wordwise) {
+						var lastspace = value.lastIndexOf(' ');
+						if(lastspace != -1) {
+							value = value.substr(0, lastspace);
+						}
+					}
+
+					return value + (tail || ' …');
+				};
+			});
+		</script>
+	</body>
+
+</html>
